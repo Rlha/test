@@ -1,0 +1,15 @@
+.project
+.classpath
+.settings/
+target/
+bower_components/
+.apt_generated
+.factorypath
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr

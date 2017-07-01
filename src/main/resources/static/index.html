@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="./bower_components/bootstrap-css-only/css/bootstrap.min.css"/>
+</head>
+<body ng-app="myApp">
+<div class="container" ng-controller="AppController">
+    <div class="page-header">
+        <h1>A TODO list</h1>
+    </div>
+    <div class="col-xs-12">
+        <div class="col-xs-4">
+            <select class="form-control" ng-model="businessStatusElement"
+                    ng-change="getItemsByBusinessStatus(businessStatusElement)">
+                <option ng-repeat="option in availableStatuses" value="{{option.name}}">{{option.name}}</option>
+            </select>
+        </div>
+        <div class="col-xs-4">
+            <input type="text" class="form-control input-lg" ng-model="searchText"
+                   placeholder="description search..."/>
+        </div>
+        <div class="col-xs-3">
+            <button type="button" class="btn btn-info" ng-click="getItemsByDescription(searchText)">search</button>
+        </div>
+    </div>
+    <form class="form-horizontal" role="form" ng-submit="addItem(businessStatus, description)">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>business status</th>
+                <th>description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="business in items">
+                <div class="checkbox col-xs-20">
+                    <td class="col-md-3" ng-if="editItem"><input type="text" ng-model="business.id"/></td>
+                    <td class="col-md-3" ng-if="editItem"><input type="text" ng-model="business.businessStatus"/></td>
+                    <td class="col-md-3" ng-if="editItem"><input type="text" ng-model="business.description"/></td>
+                    <td class="col-md-3" ng-if="!editItem">{{business.id}}</td>
+                    <td class="col-md-3" ng-if="!editItem">{{business.businessStatus}}</td>
+                    <td class="col-md-3" ng-if="!editItem">{{business.description}}</td>
+                    <td class="col-md-2">
+                        <a class="btn"
+                           ng-click="editItem && updateItem(business); editItem = !editItem"
+                           ng-class="!editItem ?
+                                'btn btn-info glyphicon glyphicon-pencil' :
+                                'btn btn-success glyphicon glyphicon-ok'">
+                        </a>
+                    </td>
+                    <td class="col-md-2">
+                        <button class="btn btn-danger" type="button" title="Delete"
+                                ng-click="deleteItem(business)">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </td>
+                </div>
+            </tr>
+            </tbody>
+            <tfoot>
+            <td>
+                <div class="pagination">
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <a href
+                               class="btn btn-info" ng-click="prevPage()"
+                               ng-disabled="currentPage == 1">« Prev</a>
+                        </li>
+                        <li class="list-inline-item"
+                            ng-repeat="n in getPageSize()"
+                            ng-click="setPage()">
+                            <a href class="btn btn-info" ng-bind="n + 1">1</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href
+                               class="btn btn-info" ng-click="nextPage()"
+                               ng-disabled="currentPage == pageSize - 1">Next »</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+            </tfoot>
+        </table>
+        <hr/>
+        <div class="input-group">
+            <div class="col-xs-5">
+                <input type="text" class="form-control input-lg" ng-model="businessStatus"
+                       placeholder="Enter businessStatus..."/>
+            </div>
+            <div class="col-xs-5">
+                <input type="text" class="form-control input-lg" ng-model="description"
+                       placeholder="Enter the description..."/>
+            </div>
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit" title="Add">
+                  <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </span>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="./bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="./bower_components/angular-resource/angular-resource.min.js"></script>
+<script type="text/javascript" src="./bower_components/lodash/dist/lodash.min.js"></script>
+<script type="text/javascript" src="./app/app.js"></script>
+<script type="text/javascript" src="./app/controllers.js"></script>
+<script type="text/javascript" src="./app/services.js"></script>
+</body>
+</html>
